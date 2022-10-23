@@ -1,97 +1,92 @@
 defmodule Metex.Worker do
-  use GenServer
+  # use GenServer
 
-  ## Client API
+  # alias Metex.Client.OpenWeatherMap
 
-  def start_link(opts \\ []) do
-    GenServer.start_link(__MODULE__, :ok, opts)
-  end
+  # @name MW
 
-  def get_temperature(pid, location) do
-    GenServer.call(pid, {:location, location})
-  end
+  # ## Client API
 
-  def get_stats(pid) do
-    GenServer.call(pid, :get_stats)
-  end
+  # def start_link(opts \\ []) do
+  #   GenServer.start_link(__MODULE__, :ok, opts ++ [name: @name])
+  # end
 
-  def reset_stats(pid) do
-    GenServer.cast(pid, :reset_stats)
-  end
+  # def get_temperature(_pid, location) do
+  #   GenServer.call(@name, {:location, location})
+  # end
 
-  def stop(pid) do
-    GenServer.cast(pid, :stop)
-  end
+  # def get_stats(_pid) do
+  #   GenServer.call(@name, :get_stats)
+  # end
 
-  def terminate(reason, stats) do
-    IO.puts("server terminated because of #{inspect(reason)}")
-    inspect(stats)
-    :ok
-  end
+  # def reset_stats(_pid) do
+  #   GenServer.cast(@name, :reset_stats)
+  # end
 
-  ##  Server Callbacks
+  # def stop(_pid) do
+  #   GenServer.cast(@name, :stop)
+  # end
 
-  def init(:ok) do
-    {:ok, %{}}
-  end
+  # def terminate(reason, stats) do
+  #   IO.puts("server terminated because of #{inspect(reason)}")
+  #   inspect(stats)
+  #   :ok
+  # end
 
-  def handle_call({:location, location}, _from, stats) do
-    case temperature_of(location) do
-      {:ok, temp} ->
-        new_stats = update_stats(stats, location)
-        {:reply, "#{temp} C", new_stats}
+  # ##  Server Callbacks
 
-      _ ->
-        {:reply, :error, stats}
-    end
-  end
+  # def init(:ok) do
+  #   {:ok, %{}}
+  # end
 
-  def handle_call(:get_stats, _from, stats) do
-    {:reply, stats, stats}
-  end
+  # def loop do
+  #   receive do
+  #     {coordinator_pid, :stats} -> send(coordinator_pid, get_stats(coordinator_pid))
+  #     {coordinator_pid, city} -> get_temperature(coordinator_pid, city)
+  #   end
+  # end
 
-  def handle_cast(:reset_stats, _stats) do
-    {:noreply, %{}}
-  end
+  # def handle_call({:location, location}, _from, stats) do
+  #   case temperature_of(location) do
+  #     {:ok, temp} ->
+  #       new_stats = update_stats(stats, location)
+  #       {:reply, "#{temp} C", new_stats}
 
-  def handle_cast(:stop, _stats) do
-    {:stop, :normal, :stats}
-  end
+  #     _ ->
+  #       {:reply, :error, stats}
+  #   end
+  # end
 
-  ## Helper Functions
+  # def handle_call(:get_stats, _from, stats) do
+  #   {:reply, stats, stats}
+  # end
 
-  def temperature_of(location) do
-    url_for(location) |> HTTPoison.get() |> parse_response
-  end
+  # def handle_cast(:reset_stats, _stats) do
+  #   {:noreply, %{}}
+  # end
 
-  defp url_for(location) do
-    location = URI.encode(location)
-    "https://api.openweathermap.org/data/2.5/weather?q=#{location}&appid=#{apikey()}"
-  end
+  # def handle_cast(:stop, _stats) do
+  #   {:stop, :normal, :ok, :stats}
+  # end
 
-  defp parse_response({:ok, %HTTPoison.Response{body: body, status_code: 200}}) do
-    body |> JSON.decode!() |> compute_temperature
-  end
+  # def handle_info(msg, stats) do
+  #   IO.puts("received #{inspect(msg)}")
+  #   {:noreply, stats}
+  # end
 
-  defp parse_response(_) do
-    :error
-  end
+  # ## Helper Functions
 
-  defp compute_temperature(json) do
-    try do
-      temp = (json["main"]["temp"] - 273.15) |> Float.round(1)
-      {:ok, temp}
-    rescue
-      _ -> :error
-    end
-  end
+  # def temperature_of(location) do
+  #   case OpenWeatherMap.get_forecast(%{location: location}) do
+  #     {:ok, forecast} -> {:ok, forecast.weather[:temp]}
+  #     error -> error
+  #   end
+  # end
 
-  defp apikey, do: "63efae3f1d695118d00585ae1fa82283"
-
-  defp update_stats(old_stats, location) do
-    case Map.has_key?(old_stats, location) do
-      true -> Map.update!(old_stats, location, &(&1 + 1))
-      false -> Map.put_new(old_stats, location, 1)
-    end
-  end
+  # defp update_stats(old_stats, location) do
+  #   case Map.has_key?(old_stats, location) do
+  #     true -> Map.update!(old_stats, location, &(&1 + 1))
+  #     false -> Map.put_new(old_stats, location, 1)
+  #   end
+  # end
 end
