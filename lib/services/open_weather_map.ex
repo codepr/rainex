@@ -1,8 +1,8 @@
-defmodule Metex.Services.OpenWeatherMap do
+defmodule Rainex.Services.OpenWeatherMap do
   @moduledoc false
-  @behaviour Metex.Services.Behaviour
+  @behaviour Rainex.Services.Behaviour
 
-  alias Metex.Http.Response
+  alias Rainex.Http.Response
 
   @url "https://api.openweathermap.org/data/2.5"
 
@@ -57,5 +57,5 @@ defmodule Metex.Services.OpenWeatherMap do
     error -> {:error, error}
   end
 
-  defp http_client, do: Application.get_env(:metex, :http_client)
+  defp http_client, do: Application.get_env(:rainex, :http_client)
 end

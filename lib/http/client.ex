@@ -1,8 +1,8 @@
-defmodule Metex.Http.Client do
+defmodule Rainex.Http.Client do
   @moduledoc false
-  @behaviour Metex.Http.Behaviour
+  @behaviour Rainex.Http.Behaviour
 
-  alias Metex.Http.Response
+  alias Rainex.Http.Response
 
   @impl true
   def get(endpoint, headers \\ [], opts \\ []) do

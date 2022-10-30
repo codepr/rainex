@@ -1,3 +1,3 @@
 import Config, only: [config: 2]
 
-config :metex, :http_client, Metex.Http.ClientMock
+config :rainex, :http_client, Rainex.Http.ClientMock

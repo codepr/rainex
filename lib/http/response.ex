@@ -1,4 +1,4 @@
-defmodule Metex.Http.Response do
+defmodule Rainex.Http.Response do
   @moduledoc false
 
   @enforce_keys [

@@ -1,3 +1,3 @@
 import Config
 
-config :metex, :http_client, Metex.Http.Client
+config :rainex, :http_client, Rainex.Http.Client

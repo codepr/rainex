@@ -1,11 +1,11 @@
-defmodule Metex.Coordinator do
+defmodule Rainex.Coordinator do
   @moduledoc false
-  alias Metex.Services.OpenWeatherMap
+  alias Rainex.Services.OpenWeatherMap
 
   def get_forecast(locations) do
     locations
     |> Enum.map(fn location ->
-      Task.Supervisor.async_nolink(Metex.TaskSupervisor, fn ->
+      Task.Supervisor.async_nolink(Rainex.TaskSupervisor, fn ->
         OpenWeatherMap.get_forecast(%{location: location})
       end)
     end)

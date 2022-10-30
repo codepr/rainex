@@ -1,12 +1,12 @@
-defmodule Metex.Services.OpenWeatherMapTest do
+defmodule Rainex.Services.OpenWeatherMapTest do
   @moduledoc false
   use ExUnit.Case, async: true
 
   import Mox, only: [expect: 3, verify_on_exit!: 1]
 
-  alias Metex.Services.OpenWeatherMap
-  alias Metex.Http.ClientMock
-  alias Metex.Http.Response
+  alias Rainex.Services.OpenWeatherMap
+  alias Rainex.Http.ClientMock
+  alias Rainex.Http.Response
 
   setup :verify_on_exit!
 
