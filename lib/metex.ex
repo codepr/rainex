@@ -8,18 +8,17 @@ defmodule Metex do
 
   ## Examples
 
-      iex> Metex.hello()
+      iex> Metex.get_forecast(["London", "Berlin"])
       :world
 
   """
-  # def temperature_of(cities) do
-  #   coordinator_pid = spawn(Metex.Coordinator, :loop, [[], Enum.count(cities)])
+  use Application
 
-  #   cities
-  #   |> Enum.each(fn city ->
-  #     worker_pid = spawn(Metex.Worker, :loop, [])
-  #     send(worker_pid, {coordinator_pid, city})
-  #     Metex.Worker.get_stats(worker_pid)
-  #   end)
-  # end
+  @impl true
+  def start(_type, _args) do
+    children = [{Task.Supervisor, name: Metex.TaskSupervisor}]
+    Supervisor.start_link(children, strategy: :one_for_one, name: Metex.Supervisor)
+  end
+
+  defdelegate get_forecast(locations), to: Metex.Coordinator
 end

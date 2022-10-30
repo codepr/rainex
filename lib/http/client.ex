@@ -1,4 +1,5 @@
 defmodule Metex.Http.Client do
+  @moduledoc false
   @behaviour Metex.Http.Behaviour
 
   alias Metex.Http.Response

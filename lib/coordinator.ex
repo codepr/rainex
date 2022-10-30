@@ -1,20 +1,13 @@
 defmodule Metex.Coordinator do
-  # def loop(results \\ [], results_expected) do
-  #   receive do
-  #     {:ok, result} ->
-  #       new_results = [result | results]
-
-  #       if results_expected == Enum.count(new_results) do
-  #         send(self, :exit)
-  #       end
-
-  #       loop(new_results, results_expected)
-
-  #     :exit ->
-  #       IO.puts(results |> Enum.sort() |> Enum.join(", "))
-
-  #     _ ->
-  #       loop(results, results_expected)
-  #   end
-  # end
+  @moduledoc false
+  alias Metex.Services.OpenWeatherMap
+  def get_forecast(locations) do
+    locations
+    |> Enum.map(fn location ->
+      Task.Supervisor.async_nolink(Metex.TaskSupervisor, fn ->
+        OpenWeatherMap.get_forecast(%{location: location})
+      end)
+    end)
+    |> Enum.map(&Task.await/1)
+  end
 end

@@ -1,5 +1,6 @@
-defmodule Metex.Client.OpenWeatherMap do
-  @behaviour Metex.Client.Behaviour
+defmodule Metex.Services.OpenWeatherMap do
+  @moduledoc false
+  @behaviour Metex.Services.Behaviour
 
   alias Metex.Http.Response
 
@@ -56,5 +57,5 @@ defmodule Metex.Client.OpenWeatherMap do
     error -> {:error, error}
   end
 
-  defp http_client, do: Application.get_env(:metex, :http_client, Metex.Http.Client)
+  defp http_client, do: Application.get_env(:metex, :http_client)
 end
