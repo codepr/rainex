@@ -26,7 +26,7 @@ defmodule Rainex.Services.OpenWeatherMap do
     @url <> "/weather?q=#{location}&appid=#{apikey()}"
   end
 
-  defp apikey, do: "63efae3f1d695118d00585ae1fa82283"
+  defp apikey, do: Application.get_env(:rainex, :owm_token)
 
   defp convert_temperature(temperature, :celsius) do
     (temperature - 273.15) |> Float.round(1)
