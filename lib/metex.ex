@@ -21,4 +21,5 @@ defmodule Metex do
   end
 
   defdelegate get_forecast(locations), to: Metex.Coordinator
+  defdelegate temperature_of(locations), to: Metex.Coordinator
 end
