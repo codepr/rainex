@@ -20,10 +20,11 @@ defmodule Rainex.Services.Geocoding.OpenWeatherMap do
   end
 
   defp compute_response(response) do
-    {:ok, Enum.map(response, fn record ->
-      %{"country" => country, "lat" => lat, "lon" => lon} = record
-      %{country: country, coordinates: {lat, lon}}
-    end)}
+    {:ok,
+     Enum.map(response, fn record ->
+       %{"country" => country, "lat" => lat, "lon" => lon} = record
+       %{country: country, coordinates: {lat, lon}}
+     end)}
   rescue
     error -> {:error, error}
   end
