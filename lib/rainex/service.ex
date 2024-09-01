@@ -11,7 +11,8 @@ defmodule Rainex.Service do
   def start(params) do
     with {:ok, new_monitor} <- Monitor.new(params),
          {:ok, monitor} <- Repo.upsert(new_monitor),
-         child_specs <- worker_specs(monitor, params.locations),
+         {:ok, locations} <- Keyword.fetch(params, :locations),
+         child_specs <- worker_specs(monitor, locations),
          _children <- start_children(child_specs) do
       {:ok, monitor}
     else
@@ -36,7 +37,7 @@ defmodule Rainex.Service do
            [
              monitor_id: monitor_id,
              request_params: %{location: location},
-             name: via_tuple(monitor_id)
+             name: via_tuple(monitor_id, location)
            ]
          ]},
       type: :worker,
@@ -44,7 +45,7 @@ defmodule Rainex.Service do
     }
   end
 
-  defp via_tuple(id) do
-    {:via, Horde.Registry, {ClusterRegistry, {Monitor, id}}}
+  defp via_tuple(id, location) do
+    {:via, Horde.Registry, {ClusterRegistry, {Monitor, "#{id}#{location}"}}}
   end
 end

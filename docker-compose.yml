@@ -1,0 +1,33 @@
+version: "3.7"
+services:
+  app1:
+    build: .
+    hostname: "n1.dev"
+    environment:
+      - RELEASE_NODE=app@n1.dev
+      - RELEASE_DISTRIBUTION=name
+      - OWM_TOKEN=63efae3f1d695118d00585ae1fa82283
+    ports:
+      - "127.0.0.1:4001:4000"
+  app2:
+    build: .
+    hostname: "n2.dev"
+    environment:
+      - RELEASE_NODE=app@n2.dev
+      - RELEASE_DISTRIBUTION=name
+      - OWM_TOKEN=63efae3f1d695118d00585ae1fa82283
+    ports:
+      - "127.0.0.1:4002:4000"
+  app3:
+    build: .
+    hostname: "n3.dev"
+    environment:
+      - RELEASE_NODE=app@n3.dev
+      - RELEASE_DISTRIBUTION=name
+      - OWM_TOKEN=63efae3f1d695118d00585ae1fa82283
+    ports:
+      - "127.0.0.1:4003:4000"
+networks:
+  default:
+    external: true
+    name: cluster-net

@@ -43,7 +43,7 @@ defmodule Rainex.Service.Worker do
 
   @impl true
   def handle_info(:process, %{monitor: monitor} = state) do
-    new_forecast = fetch_forecast(state.request_params)
+    {:ok, new_forecast} = fetch_forecast(state.request_params)
     frequency = Map.fetch!(monitor, :frequency)
     from_time = Map.fetch!(monitor, :from_time)
     until_time = Map.fetch!(monitor, :until_time)

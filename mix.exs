@@ -15,7 +15,7 @@ defmodule Rainex.MixProject do
   def application do
     [
       mod: {Rainex.Application, []},
-      extra_applications: [:logger],
+      extra_applications: [:logger]
     ]
   end
 
