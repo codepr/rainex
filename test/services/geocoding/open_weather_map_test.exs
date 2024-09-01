@@ -21,7 +21,7 @@ defmodule Rainex.Services.Geocoding.OpenWeatherMapTest do
            status: 200,
            headers: [],
            payload:
-             JSON.encode!([
+             Jason.encode!([
                %{
                  "country" => "GB",
                  "lat" => 51.5073219,

@@ -20,7 +20,7 @@ defmodule RainexTest do
            status: 200,
            headers: [],
            payload:
-             JSON.encode!(%{
+             Jason.encode!(%{
                "base" => "stations",
                "clouds" => %{"all" => 75},
                "cod" => 200,

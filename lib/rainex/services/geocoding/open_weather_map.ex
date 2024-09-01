@@ -11,7 +11,7 @@ defmodule Rainex.Services.Geocoding.OpenWeatherMap do
 
   defp parse_response({:ok, %Response{payload: payload, status: 200}}) do
     payload
-    |> JSON.decode!()
+    |> Jason.decode!()
     |> compute_response()
   end
 

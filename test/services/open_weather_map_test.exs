@@ -4,13 +4,13 @@ defmodule Rainex.Services.OpenWeatherMapTest do
 
   import Mox, only: [expect: 3, verify_on_exit!: 1]
 
-  alias Rainex.Services.OpenWeatherMap
   alias Rainex.Http.ClientMock
   alias Rainex.Http.Response
+  alias Rainex.Services.OpenWeatherMap
 
   setup :verify_on_exit!
 
-  describe "OpenWeatherMap.get_forecast/1" do
+  describe "OpenWeatherMap.forecast/1" do
     test "returns a map with forecasts" do
       expect(ClientMock, :get, fn endpoint ->
         assert endpoint =~ "https://api.openweathermap.org/data/2.5/"
@@ -20,7 +20,7 @@ defmodule Rainex.Services.OpenWeatherMapTest do
            status: 200,
            headers: [],
            payload:
-             JSON.encode!(%{
+             Jason.encode!(%{
                "base" => "stations",
                "clouds" => %{"all" => 75},
                "cod" => 200,
@@ -73,7 +73,7 @@ defmodule Rainex.Services.OpenWeatherMapTest do
                   },
                   wind: %{"deg" => 50, "speed" => 2.06}
                 }
-              }} = OpenWeatherMap.get_forecast(%{location: "Tokyo"})
+              }} = OpenWeatherMap.forecast(%{location: "Tokyo"})
     end
   end
 end
