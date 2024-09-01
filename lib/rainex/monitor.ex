@@ -53,6 +53,17 @@ defmodule Rainex.Monitor do
     end
   end
 
+  @spec merge_monitors(t(), t()) :: t()
+  def merge_monitors(monitor_a, monitor_b) do
+    %{
+      monitor_a
+      | forecasts:
+          (monitor_a.forecasts ++ monitor_b.forecasts)
+          |> MapSet.new()
+          |> MapSet.to_list()
+    }
+  end
+
   @spec add_forecast(t(), Forecast.t()) :: t()
   def add_forecast(%__MODULE__{forecasts: old_forecasts} = monitor, %Forecast{} = new_forecast) do
     %{monitor | forecasts: [new_forecast | old_forecasts]}

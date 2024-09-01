@@ -50,10 +50,13 @@ defmodule Rainex.Service.Worker do
     monitoring_interval = Timex.Interval.new(from: from_time, until: until_time)
     next_time = Timex.shift(Timex.now(), seconds: frequency)
 
+    {:ok, latest_monitor} = Monitor.Repo.fetch(monitor.id)
+
     {:ok, updated_monitor} =
       monitor
       |> Monitor.set_processing_state()
       |> Monitor.add_forecast(new_forecast)
+      |> Monitor.merge_monitors(latest_monitor)
       |> Monitor.Repo.upsert()
 
     if next_time in monitoring_interval do
