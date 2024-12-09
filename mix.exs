@@ -25,12 +25,12 @@ defmodule Rainex.MixProject do
       {:libcluster, "~> 3.3"},
       {:horde, "~> 0.9"},
       {:uuid, "~> 1.1"},
-      {:nebulex, "~> 2.6.3"},
+      {:nebulex, "~> 2.6.4"},
       {:timex, "~> 3.7.11"},
-      {:plug_cowboy, "~> 2.7.1"},
+      {:plug_cowboy, "~> 2.7.2"},
       {:jason, "~> 1.4.4"},
       {:httpoison, "~> 2.2.1"},
-      {:credo, "~> 1.7.7"},
+      {:credo, "~> 1.7.10"},
       {:mox, "~> 1.2.0", only: :test}
     ]
   end
