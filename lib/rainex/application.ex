@@ -31,7 +31,7 @@ defmodule Rainex.Application do
   # Following strategy works best for docker setup we using for this app.
   defp topologies do
     [
-      bitcoin_price_service: [
+      weather_monitor_service: [
         strategy: Cluster.Strategy.Epmd,
         config: [
           hosts: [
