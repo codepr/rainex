@@ -1,7 +1,7 @@
 defmodule Rainex.Monitor.Repo do
   @moduledoc false
   use Nebulex.Cache,
-    otp_app: :download_manager,
+    otp_app: :rainex,
     adapter: Nebulex.Adapters.Replicated
 
   alias Rainex.Monitor
